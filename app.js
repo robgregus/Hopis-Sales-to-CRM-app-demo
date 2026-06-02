@@ -242,7 +242,7 @@ async function summarizeTranscripts() {
     speak('I have extracted the summary. Please review and edit if needed.');
   } catch (error) {
     console.error(error);
-    alert('Unable to summarize voice data. Please check the server and API configuration. ' + (error.message || ''));
+    alert('Unable to summarize voice data. ' + (error.message || 'Please check the server and API configuration.'));
   }
 }
 
