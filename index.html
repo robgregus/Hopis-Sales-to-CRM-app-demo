@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hopi’s sales call to CRM App</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero-banner">
+      <div class="banner-frame">
+        <h1>Hopi’s sales call to CRM App</h1>
+      </div>
+    </header>
+
+    <section class="intro-card">
+      <button id="startButton" class="primary-button">Start Here</button>
+      <p class="intro-text">I am a note taker. I will ask a few questions about your contact with a customer. You simply talk to me. I will summarize and structure your answers and put them in the CRM… so you don’t have to. Simply press the start button to get started.</p>
+    </section>
+
+    <section class="steps-grid">
+      <article class="step-card active" id="step1Card">
+        <div class="step-label">Step 1</div>
+        <div class="step-body">
+          <p>Which customer did you speak with?</p>
+          <p>What progress was made?</p>
+          <p>What challenges remain?</p>
+        </div>
+        <button id="recordStep1" class="record-button">Record Step 1</button>
+        <div class="status-line" id="status1">Waiting to start step 1</div>
+      </article>
+
+      <article class="step-card disabled" id="step2Card">
+        <div class="step-label">Step 2</div>
+        <div class="step-body">
+          <p>What are the next steps?</p>
+        </div>
+        <button id="recordStep2" class="record-button disabled" disabled>Record Step 2</button>
+        <div class="status-line" id="status2">Complete step 1 to unlock step 2</div>
+      </article>
+    </section>
+
+    <section class="result-card hidden" id="resultSection">
+      <h2>Summary for review</h2>
+      <div class="field-group">
+        <label>Company</label>
+        <input id="companyField" type="text" placeholder="Enter company name" />
+      </div>
+      <div class="field-group">
+        <label>Person</label>
+        <input id="personField" type="text" placeholder="Enter contact person" />
+      </div>
+      <div class="field-group">
+        <label>Progress</label>
+        <textarea id="progressField" rows="4" placeholder="Bullet points, one per line"></textarea>
+      </div>
+      <div class="field-group">
+        <label>Challenges</label>
+        <textarea id="challengesField" rows="4" placeholder="Bullet points, one per line"></textarea>
+      </div>
+      <div class="field-group">
+        <label>Next Steps</label>
+        <textarea id="nextStepsField" rows="4" placeholder="Bullet points, one per line"></textarea>
+      </div>
+      <div class="field-group compact">
+        <label>Next step category</label>
+        <select id="nextStepCategory">
+          <option value="call">Call</option>
+          <option value="email">Email</option>
+          <option value="action">Action</option>
+        </select>
+      </div>
+      <div class="button-row">
+        <button id="confirmButton" class="primary-button">Next Step</button>
+      </div>
+      <p class="hint-text">Review the summary and edit any field before continuing.</p>
+    </section>
+
+    <section class="end-screen hidden" id="endScreen">
+      <div class="end-message">
+        <p>Got it. If I was connected to your CRM I would update the account fields. But I’m not connected, so instead I will head over to the pub. Hope you enjoyed the demo. Ciao.</p>
+        <button id="quitButton" class="primary-button">Quit</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

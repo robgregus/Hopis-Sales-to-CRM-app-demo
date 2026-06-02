@@ -1,0 +1,180 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f3f7fb;
+  color: #1f2937;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+.app-shell {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.hero-banner {
+  background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+  border-radius: 24px;
+  padding: 20px 18px;
+  color: white;
+  text-align: center;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+}
+
+.hero-banner h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  letter-spacing: 0.01em;
+}
+
+.intro-card,
+.result-card,
+.step-card,
+.end-screen {
+  margin-top: 18px;
+  background: white;
+  border-radius: 22px;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+  padding: 18px;
+}
+
+.intro-text,
+.step-body p,
+.hint-text,
+.end-message p {
+  margin: 14px 0 0;
+  line-height: 1.65;
+  color: #334155;
+}
+
+.primary-button,
+.record-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: none;
+  border-radius: 999px;
+  padding: 16px 22px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.18s ease, filter 0.18s ease, background-color 0.18s ease;
+}
+
+.primary-button {
+  background: #0f172a;
+  color: white;
+  width: 100%;
+}
+
+.primary-button:hover,
+.record-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.record-button {
+  background: #e2e8f0;
+  color: #0f172a;
+  width: 100%;
+}
+
+.record-button.recording {
+  background: #f87171;
+  color: white;
+}
+
+.record-button.disabled,
+.step-card.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.steps-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.step-card {
+  position: relative;
+}
+
+.step-label {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.step-body {
+  margin-top: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.status-line {
+  margin-top: 14px;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+.field-group {
+  margin-top: 16px;
+  display: grid;
+  gap: 8px;
+}
+
+.field-group.compact {
+  grid-template-columns: 1fr;
+}
+
+label {
+  font-weight: 700;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  padding: 12px 14px;
+  font: inherit;
+  color: #0f172a;
+  background: #f8fafc;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.button-row {
+  margin-top: 22px;
+}
+
+.hint-text {
+  margin-top: 14px;
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.end-screen {
+  padding: 28px;
+  text-align: center;
+}
+
+.end-message {
+  display: grid;
+  gap: 20px;
+}

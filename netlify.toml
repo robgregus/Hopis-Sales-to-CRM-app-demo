@@ -1,0 +1,9 @@
+[build]
+  command = "npm install"
+  functions = "netlify/functions"
+  publish = "."
+
+[dev]
+  framework = "#custom"
+  command = "npm start"
+  targetPort = 3000

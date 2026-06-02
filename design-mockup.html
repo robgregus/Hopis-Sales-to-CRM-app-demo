@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design Mockup - Hopi's sales call to CRM App</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f3f7fb;
+      color: #1f2937;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .mockup-container {
+      max-width: 520px;
+      margin: 0 auto;
+      display: grid;
+      gap: 40px;
+    }
+
+    .screen-label {
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+
+    .device-frame {
+      background: white;
+      border-radius: 32px;
+      border: 12px solid #1f2937;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15);
+      overflow: hidden;
+    }
+
+    .screen {
+      padding: 16px;
+      min-height: 600px;
+      background: #f3f7fb;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .hero-banner {
+      background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+      border-radius: 24px;
+      padding: 20px 18px;
+      color: white;
+      text-align: center;
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+    }
+
+    .hero-banner h1 {
+      margin: 0;
+      font-size: 1.25rem;
+      letter-spacing: 0.01em;
+    }
+
+    .card {
+      background: white;
+      border-radius: 22px;
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+      padding: 18px;
+    }
+
+    .intro-card {
+      display: grid;
+      gap: 12px;
+    }
+
+    .primary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: 999px;
+      padding: 16px 22px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      background: #0f172a;
+      color: white;
+      width: 100%;
+    }
+
+    .record-button {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .record-button.recording {
+      background: #f87171;
+      color: white;
+    }
+
+    .intro-text,
+    .step-body p,
+    .hint-text {
+      margin: 8px 0;
+      line-height: 1.65;
+      color: #334155;
+    }
+
+    .step-card {
+      opacity: 1;
+    }
+
+    .step-card.disabled {
+      opacity: 0.5;
+    }
+
+    .step-label {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .step-body {
+      margin: 12px 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .status-line {
+      margin-top: 10px;
+      color: #475569;
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+
+    .field-group {
+      display: grid;
+      gap: 8px;
+    }
+
+    label {
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 14px;
+      padding: 10px 12px;
+      font: inherit;
+      color: #0f172a;
+      background: #f8fafc;
+    }
+
+    textarea {
+      resize: vertical;
+      font-size: 0.9rem;
+    }
+
+    .end-message {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .end-message p {
+      line-height: 1.6;
+      color: #334155;
+    }
+
+    .screen-title {
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="mockup-container">
+    <!-- Screen 1: Welcome -->
+    <div>
+      <div class="screen-label">Screen 1: Welcome</div>
+      <div class="device-frame">
+        <div class="screen">
+          <div class="hero-banner">
+            <h1>Hopi's sales call to CRM App</h1>
+          </div>
+          <div class="card intro-card">
+            <button class="primary-button">Start Here</button>
+            <p class="intro-text">I am a note taker. I will ask a few questions about your contact with a customer. You simply talk to me. I will summarize and structure your answers and put them in the CRM… so you don't have to. Simply press the start button to get started.</p>
+          </div>
+          <div class="card step-card disabled">
+            <div class="step-label">Step 1</div>
+            <div class="step-body">
+              <p>Which customer did you speak with?</p>
+              <p>What progress was made?</p>
+              <p>What challenges remain?</p>
+            </div>
+            <button class="primary-button record-button" disabled>Record Step 1</button>
+            <div class="status-line">Start to unlock step 1</div>
+          </div>
+          <div class="card step-card disabled">
+            <div class="step-label">Step 2</div>
+            <div class="step-body">
+              <p>What are the next steps?</p>
+            </div>
+            <button class="primary-button record-button" disabled>Record Step 2</button>
+            <div class="status-line">Complete step 1 to unlock step 2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 2: Step 1 Active -->
+    <div>
+      <div class="screen-label">Screen 2: Step 1 Ready to Record</div>
+      <div class="device-frame">
+        <div class="screen">
+          <div class="hero-banner">
+            <h1>Hopi's sales call to CRM App</h1>
+          </div>
+          <div class="card step-card">
+            <div class="step-label">Step 1</div>
+            <div class="step-body">
+              <p>Which customer did you speak with?</p>
+              <p>What progress was made?</p>
+              <p>What challenges remain?</p>
+            </div>
+            <button class="primary-button record-button">Record Step 1</button>
+            <div class="status-line">Press to start recording…</div>
+          </div>
+          <div class="card step-card disabled">
+            <div class="step-label">Step 2</div>
+            <div class="step-body">
+              <p>What are the next steps?</p>
+            </div>
+            <button class="primary-button record-button" disabled>Record Step 2</button>
+            <div class="status-line">Complete step 1 to unlock step 2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 3: Recording -->
+    <div>
+      <div class="screen-label">Screen 3: Recording in Progress</div>
+      <div class="device-frame">
+        <div class="screen">
+          <div class="hero-banner">
+            <h1>Hopi's sales call to CRM App</h1>
+          </div>
+          <div class="card step-card">
+            <div class="step-label">Step 1</div>
+            <div class="step-body">
+              <p>Which customer did you speak with?</p>
+              <p>What progress was made?</p>
+              <p>What challenges remain?</p>
+            </div>
+            <button class="primary-button record-button recording">Stop recording</button>
+            <div class="status-line">Listening... spoke with Acme Corp about Q3 roadmap...</div>
+          </div>
+          <div class="card step-card disabled">
+            <div class="step-label">Step 2</div>
+            <div class="step-body">
+              <p>What are the next steps?</p>
+            </div>
+            <button class="primary-button record-button" disabled>Record Step 2</button>
+            <div class="status-line">Complete step 1 to unlock step 2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 4: Step 2 Active -->
+    <div>
+      <div class="screen-label">Screen 4: Step 2 Ready</div>
+      <div class="device-frame">
+        <div class="screen">
+          <div class="hero-banner">
+            <h1>Hopi's sales call to CRM App</h1>
+          </div>
+          <div class="card step-card disabled">
+            <div class="step-label">Step 1</div>
+            <div class="step-body">
+              <p>Which customer did you speak with?</p>
+              <p>What progress was made?</p>
+              <p>What challenges remain?</p>
+            </div>
+            <button class="primary-button record-button" disabled>Record Step 1</button>
+            <div class="status-line">Recorded step 1. Ready for step 2.</div>
+          </div>
+          <div class="card step-card">
+            <div class="step-label">Step 2</div>
+            <div class="step-body">
+              <p>What are the next steps?</p>
+            </div>
+            <button class="primary-button record-button">Record Step 2</button>
+            <div class="status-line">Press to start recording…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 5: Summary Review -->
+    <div>
+      <div class="screen-label">Screen 5: Summary for Review</div>
+      <div class="device-frame">
+        <div class="screen">
+          <div class="hero-banner">
+            <h1>Hopi's sales call to CRM App</h1>
+          </div>
+          <div class="card">
+            <div class="screen-title">Summary for review</div>
+            <div class="field-group">
+              <label>Company</label>
+              <input type="text" value="Acme Corporation" />
+            </div>
+            <div class="field-group">
+              <label>Person</label>
+              <input type="text" value="Sarah Johnson" />
+            </div>
+            <div class="field-group">
+              <label>Progress</label>
+              <textarea rows="3">• Discussed Q3 product roadmap and feature prioritization
+• Agreed on timeline for feature releases
+• Customer agreed to beta test new feature</textarea>
+            </div>
+            <div class="field-group">
+              <label>Challenges</label>
+              <textarea rows="3">• Integration timeline concerns with existing systems
+• Budget constraints for additional training
+• Unclear resource availability on their end</textarea>
+            </div>
+            <div class="field-group">
+              <label>Next Steps</label>
+              <textarea rows="3">• Send detailed feature roadmap documentation
+• Schedule follow-up meeting for next week
+• Prepare integration guide for their IT team</textarea>
+            </div>
+            <div class="field-group">
+              <label>Next step category</label>
+              <select>
+                <option selected>Call</option>
+                <option>Email</option>
+                <option>Action</option>
+              </select>
+            </div>
+            <div style="margin-top: 18px;">
+              <button class="primary-button">Next Step</button>
+            </div>
+            <p class="hint-text">Review the summary and edit any field before continuing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 6: End -->
+    <div>
+      <div class="screen-label">Screen 6: End Screen</div>
+      <div class="device-frame">
+        <div class="screen">
+          <div class="hero-banner">
+            <h1>Hopi's sales call to CRM App</h1>
+          </div>
+          <div class="card end-message">
+            <p style="font-size: 1rem; font-weight: 700; margin-bottom: 20px;">Got it.</p>
+            <p>If I was connected to your CRM I would update the account fields. But I'm not connected, so instead I will head over to the pub. Hope you enjoyed the demo. Ciao.</p>
+            <div style="margin-top: 30px;">
+              <button class="primary-button">Quit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
