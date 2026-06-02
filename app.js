@@ -1,4 +1,4 @@
-const startButton = document.getElementById('startButton');
+const nextButton = document.getElementById('nextButton');
 const recordStep1 = document.getElementById('recordStep1');
 const recordStep2 = document.getElementById('recordStep2');
 const status1 = document.getElementById('status1');
@@ -8,6 +8,10 @@ const resultSection = document.getElementById('resultSection');
 const confirmButton = document.getElementById('confirmButton');
 const endScreen = document.getElementById('endScreen');
 const quitButton = document.getElementById('quitButton');
+const introCard = document.querySelector('.intro-card');
+const stepsGrid = document.querySelector('.steps-grid');
+
+const introText = 'I am a note taker. I will ask a few questions about your contact with a customer. You simply talk to me. I will summarize and structure your answers and put them in the CRM. Then you can review and edit them. Tap the NEXT button to begin.';
 
 const companyField = document.getElementById('companyField');
 const personField = document.getElementById('personField');
@@ -23,11 +27,29 @@ let activeStep = null;
 let transcripts = { step1: '', step2: '' };
 let currentTranscript = '';
 let isRecording = false;
+let selectedVoice = null;
+let slideTracker = { active: false, startX: 0, step: null, button: null, pointerId: null };
 
 const stepPrompts = {
   step1: 'Step 1: Which customer did you speak with? What progress was made? What challenges remain?',
   step2: 'Step 2: What are the next steps?'
 };
+
+function chooseVoice(voices) {
+  const englishVoices = voices.filter((voice) => /en(-|_)?/i.test(voice.lang));
+  const femaleVoices = englishVoices.filter((voice) => /female|zira|samantha|alloy|serena|aria|karen|anna|rachel|nora/i.test(voice.name));
+  return femaleVoices[0] || englishVoices[0] || voices[0];
+}
+
+function initVoices() {
+  const voices = window.speechSynthesis.getVoices();
+  if (voices.length) {
+    selectedVoice = chooseVoice(voices);
+  }
+}
+
+window.speechSynthesis.onvoiceschanged = initVoices;
+initVoices();
 
 function speak(text) {
   if (!window.speechSynthesis) return;
@@ -36,6 +58,9 @@ function speak(text) {
   utterance.rate = 1;
   utterance.pitch = 1;
   utterance.lang = 'en-US';
+  if (selectedVoice) {
+    utterance.voice = selectedVoice;
+  }
   window.speechSynthesis.speak(utterance);
 }
 
@@ -48,9 +73,26 @@ function setStepEnabled(stepId) {
   }
 }
 
+function updateRecordButtonLabel(button, label) {
+  button.textContent = label;
+}
+
 function updateRecordingButton(button, active) {
-  button.textContent = active ? 'Stop recording' : `Record ${button.dataset.stepLabel}`;
   button.classList.toggle('recording', active);
+  if (active) {
+    updateRecordButtonLabel(button, 'Stop recording');
+  } else {
+    updateRecordButtonLabel(button, 'Tap to record');
+  }
+}
+
+function activateStep1() {
+  introCard.classList.add('hidden');
+  stepsGrid.classList.remove('hidden');
+  recordStep1.disabled = false;
+  recordStep1.classList.remove('disabled');
+  updateRecordingButton(recordStep1, false);
+  setStatus('step1', 'Step 1 is ready. Tap the button to start recording.');
 }
 
 function setStatus(step, message) {
@@ -70,6 +112,7 @@ function startRecognition(step) {
 
   recognizer = new SpeechRecognition();
   recognizer.interimResults = true;
+  recognizer.continuous = true;
   recognizer.maxAlternatives = 1;
   recognizer.lang = 'en-US';
 
@@ -82,10 +125,17 @@ function startRecognition(step) {
   setStatus(step, 'Listening... speak now.');
 
   recognizer.onresult = (event) => {
-    const lastResult = event.results[event.results.length - 1];
-    const transcript = lastResult[0].transcript;
-    currentTranscript = transcript;
-    setStatus(step, 'Listening... ' + transcript);
+    let interimTranscript = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const result = event.results[i];
+      const transcript = result[0].transcript;
+      if (result.isFinal) {
+        currentTranscript += transcript + ' ';
+      } else {
+        interimTranscript += transcript;
+      }
+    }
+    setStatus(step, 'Listening... ' + (interimTranscript || currentTranscript.trim()));
   };
 
   recognizer.onerror = (event) => {
@@ -96,7 +146,8 @@ function startRecognition(step) {
 
   recognizer.onend = () => {
     if (isRecording) {
-      stopRecognition();
+      setStatus(step, 'Listening paused. Continuing recording...');
+      recognizer.start();
     }
   };
 
@@ -169,21 +220,28 @@ async function summarizeTranscripts() {
     speak('I have extracted the summary. Please review and edit if needed.');
   } catch (error) {
     console.error(error);
-    alert('Unable to summarize voice data. Please check the server and API configuration.');
+    alert('Unable to summarize voice data. Please check the server and API configuration. ' + (error.message || ''));
   }
 }
 
-startButton.addEventListener('click', () => {
-  speak('I am a note taker. I will ask a few questions about your contact with a customer. You simply talk to me. I will summarize and structure your answers and put them in the CRM. Simply press the start button to get started.');
-  setStatus('step1', 'Step 1 is ready. Press record when you are ready.');
-  recordStep1.disabled = false;
-  recordStep1.classList.remove('disabled');
+nextButton.addEventListener('click', () => {
+  activateStep1();
+  nextButton.disabled = true;
+  nextButton.classList.add('disabled');
+  speak(introText);
 });
+
+setStatus('step1', 'Tap NEXT to begin.');
 
 recordStep1.dataset.stepLabel = 'Step 1';
 recordStep2.dataset.stepLabel = 'Step 2';
+recordStep1.disabled = true;
+recordStep1.classList.add('disabled');
+recordStep2.disabled = true;
+recordStep2.classList.add('disabled');
 
 recordStep1.addEventListener('click', () => {
+  if (recordStep1.disabled) return;
   if (isRecording && activeStep === 'step1') {
     stopRecognition();
     return;
@@ -217,5 +275,5 @@ quitButton.addEventListener('click', () => {
 if (!SUPPORTS_SPEECH) {
   status1.textContent = 'Speech recognition is unavailable in this browser. Please use a supported mobile browser.';
   status2.textContent = 'Speech recognition is unavailable in this browser. Please use a supported mobile browser.';
-  startButton.disabled = true;
+  nextButton.disabled = true;
 }

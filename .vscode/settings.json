@@ -1,0 +1,13 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "npx --yes netlify": true,
+        "/^cd \"c:\\\\Users\\\\Robs Yonder Account\\\\Documents\\\\PERSONAL FILES\\\\Visual Studio Projects\\\\Hopis Sales to CRM app\" ; node --check app\\.js$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^cd \"c:\\\\Users\\\\Robs Yonder Account\\\\Documents\\\\PERSONAL FILES\\\\Visual Studio Projects\\\\Hopis Sales to CRM app\"; node --check app\\.js ; node --check netlify/functions/summary\\.js$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

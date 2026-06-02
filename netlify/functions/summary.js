@@ -47,12 +47,17 @@ exports.handler = async (event) => {
       }
     });
 
-    const content = response.data.content[0]?.text || '';
+    const content = response.data.completion?.content?.[0]?.text
+      || response.data.content?.[0]?.text
+      || response.data.completion?.response
+      || response.data.completion?.output
+      || '';
     let parsed;
 
     try {
       parsed = JSON.parse(content.trim());
     } catch (parseError) {
+      console.error('Claude parse failed:', parseError.message, 'raw output:', content);
       return {
         statusCode: 502,
         body: JSON.stringify({ error: 'Unable to parse Claude output as JSON.', output: content })
