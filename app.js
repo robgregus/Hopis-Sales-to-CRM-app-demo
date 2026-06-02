@@ -251,7 +251,31 @@ recordStep1.addEventListener('click', () => {
   startRecognition('step1');
 });
 
+recordStep1.addEventListener('touchend', (e) => {
+  e.preventDefault();
+  if (recordStep1.disabled) return;
+  if (isRecording && activeStep === 'step1') {
+    stopRecognition();
+    return;
+  }
+  if (isRecording) return;
+  activeStep = 'step1';
+  startRecognition('step1');
+});
+
 recordStep2.addEventListener('click', () => {
+  if (recordStep2.disabled) return;
+  if (isRecording && activeStep === 'step2') {
+    stopRecognition();
+    return;
+  }
+  if (isRecording) return;
+  activeStep = 'step2';
+  startRecognition('step2');
+});
+
+recordStep2.addEventListener('touchend', (e) => {
+  e.preventDefault();
   if (recordStep2.disabled) return;
   if (isRecording && activeStep === 'step2') {
     stopRecognition();
