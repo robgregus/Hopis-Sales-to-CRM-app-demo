@@ -87,10 +87,12 @@ function updateRecordingButton(button, active) {
 }
 
 function activateStep1() {
+  console.log('activateStep1 called');
   introCard.classList.add('hidden');
   stepsGrid.classList.remove('hidden');
   recordStep1.disabled = false;
   recordStep1.classList.remove('disabled');
+  console.log('recordStep1 enabled, disabled attribute:', recordStep1.disabled);
   updateRecordingButton(recordStep1, false);
   setStatus('step1', 'Step 1 is ready. Tap the button to start recording.');
 }
@@ -105,6 +107,7 @@ function safeText(text) {
 }
 
 function startRecognition(step) {
+  console.log('startRecognition called for step:', step, 'SUPPORTS_SPEECH:', SUPPORTS_SPEECH);
   if (!SUPPORTS_SPEECH) {
     alert('Speech recognition is not supported in this browser. Please use Chrome on Android if possible.');
     return;
@@ -125,11 +128,13 @@ function startRecognition(step) {
   setStatus(step, 'Listening... speak now.');
 
   recognizer.onresult = (event) => {
+    console.log('onresult - event results count:', event.results.length);
     let interimTranscript = '';
     for (let i = event.resultIndex; i < event.results.length; i++) {
       const result = event.results[i];
       const transcript = result[0].transcript;
       if (result.isFinal) {
+        console.log('Final transcript:', transcript);
         currentTranscript += transcript + ' ';
       } else {
         interimTranscript += transcript;
@@ -145,16 +150,19 @@ function startRecognition(step) {
   };
 
   recognizer.onend = () => {
+    console.log('recognizer onend - isRecording:', isRecording);
     if (isRecording) {
       setStatus(step, 'Listening paused. Continuing recording...');
       recognizer.start();
     }
   };
 
+  console.log('Starting recognizer.start()');
   recognizer.start();
 }
 
 function stopRecognition() {
+  console.log('stopRecognition called - currentTranscript:', currentTranscript);
   if (!recognizer) return;
   isRecording = false;
   recognizer.stop();
@@ -241,17 +249,20 @@ recordStep2.disabled = true;
 recordStep2.classList.add('disabled');
 
 recordStep1.addEventListener('click', () => {
+  console.log('recordStep1 click - disabled:', recordStep1.disabled, 'isRecording:', isRecording);
   if (recordStep1.disabled) return;
   if (isRecording && activeStep === 'step1') {
     stopRecognition();
     return;
   }
   if (isRecording) return;
+  console.log('Starting step1 recording');
   activeStep = 'step1';
   startRecognition('step1');
 });
 
 recordStep1.addEventListener('touchend', (e) => {
+  console.log('recordStep1 touchend');
   e.preventDefault();
   if (recordStep1.disabled) return;
   if (isRecording && activeStep === 'step1') {
@@ -259,22 +270,39 @@ recordStep1.addEventListener('touchend', (e) => {
     return;
   }
   if (isRecording) return;
+  console.log('Starting step1 recording from touchend');
+  activeStep = 'step1';
+  startRecognition('step1');
+}, { passive: false });
+
+recordStep1.addEventListener('pointerdown', (e) => {
+  console.log('recordStep1 pointerdown - disabled:', recordStep1.disabled);
+  if (recordStep1.disabled) return;
+  if (isRecording && activeStep === 'step1') {
+    stopRecognition();
+    return;
+  }
+  if (isRecording) return;
+  console.log('Starting step1 recording from pointerdown');
   activeStep = 'step1';
   startRecognition('step1');
 });
 
 recordStep2.addEventListener('click', () => {
+  console.log('recordStep2 click - disabled:', recordStep2.disabled, 'isRecording:', isRecording);
   if (recordStep2.disabled) return;
   if (isRecording && activeStep === 'step2') {
     stopRecognition();
     return;
   }
   if (isRecording) return;
+  console.log('Starting step2 recording');
   activeStep = 'step2';
   startRecognition('step2');
 });
 
 recordStep2.addEventListener('touchend', (e) => {
+  console.log('recordStep2 touchend');
   e.preventDefault();
   if (recordStep2.disabled) return;
   if (isRecording && activeStep === 'step2') {
@@ -282,6 +310,20 @@ recordStep2.addEventListener('touchend', (e) => {
     return;
   }
   if (isRecording) return;
+  console.log('Starting step2 recording from touchend');
+  activeStep = 'step2';
+  startRecognition('step2');
+}, { passive: false });
+
+recordStep2.addEventListener('pointerdown', (e) => {
+  console.log('recordStep2 pointerdown - disabled:', recordStep2.disabled);
+  if (recordStep2.disabled) return;
+  if (isRecording && activeStep === 'step2') {
+    stopRecognition();
+    return;
+  }
+  if (isRecording) return;
+  console.log('Starting step2 recording from pointerdown');
   activeStep = 'step2';
   startRecognition('step2');
 });
