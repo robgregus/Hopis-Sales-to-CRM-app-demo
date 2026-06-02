@@ -66,10 +66,12 @@ function speak(text) {
 
 function setStepEnabled(stepId) {
   if (stepId === 'step2') {
+    console.log('Enabling step 2');
     step2Card.classList.remove('disabled');
     recordStep2.disabled = false;
     recordStep2.classList.remove('disabled');
     status2.textContent = 'Ready for step 2';
+    console.log('Step 2 enabled, recordStep2.disabled:', recordStep2.disabled);
   }
 }
 
@@ -178,15 +180,22 @@ function stopRecognition() {
   const transcript = safeText(currentTranscript);
   if (step === 'step1') {
     transcripts.step1 = (transcripts.step1 + ' ' + transcript).trim();
-    setStatus(step, transcripts.step1 ? 'Recorded step 1. Ready for step 2.' : 'Step 1 was empty. Try again.');
+    const msg = transcripts.step1 ? 'Recorded step 1. Ready for step 2.' : 'Step 1 was empty. Try again.';
+    setStatus(step, msg);
+    console.log('Step 1 transcript:', transcripts.step1);
     if (transcripts.step1) {
+      console.log('Setting step 2 enabled before speaking');
       setStepEnabled('step2');
+      console.log('Speaking step 2 prompt');
       speak('Great. Now step two asks: what are the next steps? Record when ready.');
     }
   } else {
     transcripts.step2 = transcript;
-    setStatus(step, transcripts.step2 ? 'Recorded step 2. Summarizing the conversation.' : 'Step 2 was empty. Try again.');
+    const msg = transcripts.step2 ? 'Recorded step 2. Summarizing the conversation.' : 'Step 2 was empty. Try again.';
+    setStatus(step, msg);
+    console.log('Step 2 transcript:', transcripts.step2);
     if (transcripts.step2) {
+      console.log('Calling summarizeTranscripts');
       speak('Thanks. I am summarizing the key points now.');
       summarizeTranscripts();
     }

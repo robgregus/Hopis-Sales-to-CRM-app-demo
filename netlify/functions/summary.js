@@ -30,6 +30,7 @@ exports.handler = async (event) => {
   const prompt = `You are a smart assistant that extracts essential CRM notes from two voice transcripts.\n\nTranscript 1:\n${step1Transcript}\n\nTranscript 2:\n${step2Transcript}\n\nReturn only valid JSON with these fields:\n- company: name of the customer company or empty string if not mentioned\n- person: contact name or empty string if not mentioned\n- progress: array of bullet points, each under 15 words\n- challenges: array of bullet points, each under 15 words\n- nextSteps: array of bullet points, each under 15 words\n- nextStepCategory: one of call, email, action\n\nIf the transcript does not include company or person, set that value to an empty string. Do not add any explanatory text.`;
 
   try {
+    console.log('Calling Claude API with key length:', CLAUDE_API_KEY.length);
     const response = await axios.post('https://api.anthropic.com/v1/messages', {
       model: 'claude-3-5-sonnet-20241022',
       max_tokens: 800,
@@ -44,9 +45,11 @@ exports.handler = async (event) => {
         'Content-Type': 'application/json',
         'x-api-key': CLAUDE_API_KEY,
         'anthropic-version': '2023-06-01'
-      }
+      },
+      timeout: 30000
     });
 
+    console.log('Claude API response status:', response.status);
     const content = response.data.completion?.content?.[0]?.text
       || response.data.content?.[0]?.text
       || response.data.completion?.response
@@ -69,10 +72,10 @@ exports.handler = async (event) => {
       body: JSON.stringify(parsed)
     };
   } catch (error) {
-    console.error('Claude request failed:', error.message);
+    console.error('Claude request failed:', error.message, 'status:', error.response?.status, 'data:', error.response?.data);
     return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'Could not reach Claude API.', details: error.message })
+      statusCode: 502,
+      body: JSON.stringify({ error: 'Could not reach Claude API.', details: error.message, apiStatus: error.response?.status })
     };
   }
 };
