@@ -228,7 +228,7 @@ nextButton.addEventListener('click', () => {
   activateStep1();
   nextButton.disabled = true;
   nextButton.classList.add('disabled');
-  speak(introText);
+  setTimeout(() => speak('Which customer did you speak with? What progress was made? What challenges remain?'), 300);
 });
 
 setStatus('step1', 'Tap NEXT to begin.');
@@ -240,7 +240,9 @@ recordStep1.classList.add('disabled');
 recordStep2.disabled = true;
 recordStep2.classList.add('disabled');
 
-recordStep1.addEventListener('click', () => {
+recordStep1.addEventListener('click', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
   if (recordStep1.disabled) return;
   if (isRecording && activeStep === 'step1') {
     stopRecognition();
@@ -251,7 +253,21 @@ recordStep1.addEventListener('click', () => {
   startRecognition('step1');
 });
 
-recordStep2.addEventListener('click', () => {
+recordStep1.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  if (recordStep1.disabled) return;
+  if (isRecording && activeStep === 'step1') {
+    stopRecognition();
+    return;
+  }
+  if (isRecording) return;
+  activeStep = 'step1';
+  startRecognition('step1');
+}, { passive: false });
+
+recordStep2.addEventListener('click', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
   if (recordStep2.disabled) return;
   if (isRecording && activeStep === 'step2') {
     stopRecognition();
@@ -261,6 +277,18 @@ recordStep2.addEventListener('click', () => {
   activeStep = 'step2';
   startRecognition('step2');
 });
+
+recordStep2.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  if (recordStep2.disabled) return;
+  if (isRecording && activeStep === 'step2') {
+    stopRecognition();
+    return;
+  }
+  if (isRecording) return;
+  activeStep = 'step2';
+  startRecognition('step2');
+}, { passive: false });
 
 confirmButton.addEventListener('click', () => {
   speak('Got it. If I was connected to your CRM I would update the account fields. But I’m not connected, so instead I will head over to the pub. Hope you enjoyed the demo. Ciao.');
