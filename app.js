@@ -240,9 +240,7 @@ recordStep1.classList.add('disabled');
 recordStep2.disabled = true;
 recordStep2.classList.add('disabled');
 
-recordStep1.addEventListener('click', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
+recordStep1.addEventListener('click', () => {
   if (recordStep1.disabled) return;
   if (isRecording && activeStep === 'step1') {
     stopRecognition();
@@ -253,21 +251,7 @@ recordStep1.addEventListener('click', (e) => {
   startRecognition('step1');
 });
 
-recordStep1.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  if (recordStep1.disabled) return;
-  if (isRecording && activeStep === 'step1') {
-    stopRecognition();
-    return;
-  }
-  if (isRecording) return;
-  activeStep = 'step1';
-  startRecognition('step1');
-}, { passive: false });
-
-recordStep2.addEventListener('click', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
+recordStep2.addEventListener('click', () => {
   if (recordStep2.disabled) return;
   if (isRecording && activeStep === 'step2') {
     stopRecognition();
@@ -277,18 +261,6 @@ recordStep2.addEventListener('click', (e) => {
   activeStep = 'step2';
   startRecognition('step2');
 });
-
-recordStep2.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  if (recordStep2.disabled) return;
-  if (isRecording && activeStep === 'step2') {
-    stopRecognition();
-    return;
-  }
-  if (isRecording) return;
-  activeStep = 'step2';
-  startRecognition('step2');
-}, { passive: false });
 
 confirmButton.addEventListener('click', () => {
   speak('Got it. If I was connected to your CRM I would update the account fields. But I’m not connected, so instead I will head over to the pub. Hope you enjoyed the demo. Ciao.');
